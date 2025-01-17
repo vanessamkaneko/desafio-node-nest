@@ -5,6 +5,7 @@ import {
   HttpStatus,
   BadRequestException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 
 @Catch()
@@ -18,13 +19,19 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     if (error instanceof BadRequestException) {
       response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: HttpStatus.BAD_REQUEST,
-        message: 'Not Found',
+        message: 'Bad Request',
         error: error.message,
       });
     } else if (error instanceof NotFoundException) {
       response.status(HttpStatus.NOT_FOUND).json({
         statusCode: HttpStatus.NOT_FOUND,
         message: 'Not Found',
+        error: error.message,
+      });
+    } else if (error instanceof UnauthorizedException) {
+      response.status(HttpStatus.FORBIDDEN).json({
+        statusCode: HttpStatus.FORBIDDEN,
+        message: 'Unauthorized',
         error: error.message,
       });
     } else {

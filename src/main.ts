@@ -1,5 +1,4 @@
-import { ServerApplication } from "./application/server-application";
-
+import { ServerApplication } from './application/server-application';
 
 async function runApplication(): Promise<void> {
   const serverApplication: ServerApplication = ServerApplication.new();
