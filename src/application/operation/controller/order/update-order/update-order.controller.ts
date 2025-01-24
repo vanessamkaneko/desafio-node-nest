@@ -9,8 +9,16 @@ export class UpdateOrderController {
     private updateOrderUseCase: UpdateOrderUseCase,
   ) {}
 
-  async handle(id: string, payload: UpdateOrderDto): Promise<Order> {
-    const updateOrder = await this.updateOrderUseCase.execute(id, payload);
+  async handle(
+    orderId: string,
+    courierId: string,
+    payload: UpdateOrderDto,
+  ): Promise<Order> {
+    const updateOrder = await this.updateOrderUseCase.execute(
+      orderId,
+      courierId,
+      payload,
+    );
 
     return updateOrder;
   }

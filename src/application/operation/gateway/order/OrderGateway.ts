@@ -30,8 +30,14 @@ export class OrderGateway implements IOrderGateway {
     return order;
   }
 
-  async findOrdersByUser(userId: string): Promise<Order[]> {
-    const orders = await this.orderRepository.findByUser(userId);
+  async findOrdersByUser(courier_id: string): Promise<Order[]> {
+    const orders = await this.orderRepository.find({ courier_id });
+
+    return orders;
+  }
+
+  async findOrdersByAddress(address: string): Promise<Order[]> {
+    const orders = await this.orderRepository.find({ address });
 
     return orders;
   }

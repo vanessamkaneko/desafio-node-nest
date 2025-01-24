@@ -66,7 +66,7 @@ export class UserControllerRoute {
 
   @UseGuards(AuthGuard)
   @Get('/users')
-  async listUsers(@Query() query: ListUsersDto): Promise<User[]> {
+  async listUsersByType(@Query() query: ListUsersDto): Promise<User[]> {
     const users = await this.listUsersController.handle(query);
     return users;
   }

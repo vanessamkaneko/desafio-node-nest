@@ -9,11 +9,16 @@ export interface IOrderUpdate {
   courier_id?: mongoose.Types.ObjectId;
 }
 
+export interface IOrderFindFields {
+  address?: string;
+  courier_id?: string;
+}
+
 export interface IOrderMongoDbRepository {
   create(user: Order): Promise<Order>;
   update(id: string, payload: IOrderUpdate): Promise<Order>;
-  findById(id: string): Promise<Order | null>;
-  findByUser(userId: string): Promise<Order[]>;
+  findById(id: string): Promise<Order>;
+  find(payload: IOrderFindFields): Promise<Order[]>;
   delete(id: string): Promise<void>;
 }
 

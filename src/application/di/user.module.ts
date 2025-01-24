@@ -16,6 +16,8 @@ import { DeleteUserUseCase } from 'src/core/user/usecase/user/delete-user/delete
 import { DeleteUserController } from '../operation/controller/user/delete-user/delete-user.controller';
 import { UpdateUserUseCase } from 'src/core/user/usecase/user/update-user/update-user.usecase';
 import { UpdateUserController } from '../operation/controller/user/update-user/update-user.controller';
+import { ChangePasswordUseCase } from 'src/core/user/usecase/user/change-password/change-password.usecase';
+import { ChangePasswordController } from '../operation/controller/user/change-password/change-password.controller';
 
 const persistenceProviders: Provider[] = [
   {
@@ -67,6 +69,12 @@ const useCaseProviders: Provider[] = [
       new AuthenticateUserUseCase(userGateway),
     inject: [IUserGateway],
   },
+  {
+    provide: ChangePasswordUseCase,
+    useFactory: (userGateway: IUserGateway) =>
+      new ChangePasswordUseCase(userGateway),
+    inject: [IUserGateway],
+  },
 ];
 
 const controllerProviders: Provider[] = [
@@ -105,6 +113,12 @@ const controllerProviders: Provider[] = [
     useFactory: (authenticateUserUseCase: AuthenticateUserUseCase) =>
       new AuthenticateUserController(authenticateUserUseCase),
     inject: [AuthenticateUserUseCase],
+  },
+  {
+    provide: ChangePasswordController,
+    useFactory: (changePasswordUseCase: ChangePasswordUseCase) =>
+      new ChangePasswordController(changePasswordUseCase),
+    inject: [ChangePasswordUseCase],
   },
 ];
 

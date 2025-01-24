@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Order } from 'src/core/order/entity/order.entity';
 import { OrderModel } from 'src/infrastructure/persistence/bds/mongodb/schema/orderModel';
 import {
+  IOrderFindFields,
   IOrderMongoDbRepository,
   IOrderUpdate,
 } from './IOrder-mongodb.repository';
@@ -30,8 +31,8 @@ export class OrderMongoDbRepository implements IOrderMongoDbRepository {
     return order;
   }
 
-  async findByUser(userId: string): Promise<Order[]> {
-    const orders = await OrderModel.find({ courier_id: userId });
+  async find(payload: IOrderFindFields): Promise<Order[]> {
+    const orders = await OrderModel.find({ ...payload });
 
     return orders;
   }

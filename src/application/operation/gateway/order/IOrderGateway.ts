@@ -11,6 +11,7 @@ export interface IOrderGateway {
   update(id: string, payload: IOrderUpdate): Promise<Order>;
   findOrderById(id: string): Promise<Order>;
   findOrdersByUser(userId: string): Promise<Order[]>;
+  findOrdersByAddress(address: string): Promise<Order[]>;
   delete(id: string): Promise<void>;
 }
 

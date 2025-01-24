@@ -5,7 +5,7 @@ import { ChangePasswordDto } from 'src/core/user/dto/update-password.dto';
 import { User } from 'src/core/user/entity/user.entity';
 
 @Injectable()
-export class ChangePasswordUserUseCase {
+export class ChangePasswordUseCase {
   constructor(
     @Inject(IUserGateway)
     private userGateway: IUserGateway,

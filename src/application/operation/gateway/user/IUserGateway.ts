@@ -1,11 +1,11 @@
 import { CreateUserDto } from 'src/core/user/dto/create-user.dto';
 import { ListUsersDto } from 'src/core/user/dto/list-users.dto';
-import { UpdateUserDto } from 'src/core/user/dto/update-user.dto';
 import { User } from 'src/core/user/entity/user.entity';
+import { IUserUpdate } from 'src/infrastructure/persistence/repositories/user/mongodb/IUser-mongodb.repository';
 
 export interface IUserGateway {
   create(payload: CreateUserDto): Promise<User>;
-  update(id: string, payload: UpdateUserDto): Promise<User>;
+  update(id: string, payload: IUserUpdate): Promise<User>;
   findUserByEmail(email: string): Promise<User>;
   findUserByCpf(cpf: string): Promise<User>;
   findUserById(id: string): Promise<User>;

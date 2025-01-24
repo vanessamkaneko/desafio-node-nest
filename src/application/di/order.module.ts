@@ -16,6 +16,10 @@ import { ListOrdersUseCase } from 'src/core/order/usecase/order/list-orders/list
 import { ListOrdersController } from '../operation/controller/order/list-orders/list-orders.controller';
 import { UpdateOrderUseCase } from 'src/core/order/usecase/order/update-order/update-order.usecase';
 import { UpdateOrderController } from '../operation/controller/order/update-order/update-order.controller';
+import { ListOrdersByAddressUseCase } from 'src/core/order/usecase/order/list-orders-by-address/list-orders-by-address.usecase';
+import { ListOrdersByAddressController } from '../operation/controller/order/list-orders-by-address/list-orders-by-address.controller';
+import { INotificationGateway } from '../operation/gateway/notification/INotificationGateway';
+import { NotificationGateway } from '../operation/gateway/notification/NotificationGateway';
 
 const persistenceProviders: Provider[] = [
   {
@@ -40,6 +44,11 @@ const persistenceProviders: Provider[] = [
       new UserGateway(userMongoDbRepository),
     inject: [IUserMongoDbRepository],
   },
+  {
+    provide: INotificationGateway,
+    useFactory: () => new NotificationGateway(),
+    inject: [],
+  },
 ];
 
 const useCaseProviders: Provider[] = [
@@ -63,9 +72,18 @@ const useCaseProviders: Provider[] = [
   },
   {
     provide: UpdateOrderUseCase,
-    useFactory: (orderGateway: IOrderGateway) =>
-      new UpdateOrderUseCase(orderGateway),
-    inject: [IOrderGateway],
+    useFactory: (
+      orderGateway: IOrderGateway,
+      userGateway: IUserGateway,
+      notificationGateway: INotificationGateway,
+    ) => new UpdateOrderUseCase(orderGateway, userGateway, notificationGateway),
+    inject: [IOrderGateway, IUserGateway, INotificationGateway],
+  },
+  {
+    provide: ListOrdersByAddressUseCase,
+    useFactory: (orderGateway: IOrderGateway, userGateway: IUserGateway) =>
+      new ListOrdersByAddressUseCase(orderGateway, userGateway),
+    inject: [IOrderGateway, IUserGateway],
   },
 ];
 
@@ -93,6 +111,12 @@ const controllerProviders: Provider[] = [
     useFactory: (updateOrderUseCase: UpdateOrderUseCase) =>
       new UpdateOrderController(updateOrderUseCase),
     inject: [UpdateOrderUseCase],
+  },
+  {
+    provide: ListOrdersByAddressController,
+    useFactory: (listOrdersByAddressUseCase: ListOrdersByAddressUseCase) =>
+      new ListOrdersByAddressController(listOrdersByAddressUseCase),
+    inject: [ListOrdersByAddressUseCase],
   },
 ];
 
